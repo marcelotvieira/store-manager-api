@@ -3,7 +3,7 @@ const conn = require('./connection');
 const getAll = async () => {
   try {
     const [data] = await conn.execute(
-      'SELECT * FROM products ORDER BY id asc;',
+      'SELECT * FROM StoreManager.products ORDER BY id asc;',
 );
     return data;
   } catch (err) {
@@ -14,7 +14,7 @@ const getAll = async () => {
 const findById = async (id) => {
   try {
     const [data] = await conn.execute(
-      'SELECT * FROM products WHERE id=?',
+      'SELECT * FROM StoreManager.products WHERE id=?',
       [id],
     );
     return data;
