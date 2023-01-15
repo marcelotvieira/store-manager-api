@@ -1,4 +1,4 @@
-const { getProducts, getById } = require('../services/product.services');
+const { getProducts, getById, insertProduct } = require('../services/product.services');
 
 const getAllProducts = async (req, res) => {
   try {
@@ -25,7 +25,17 @@ const getProductById = async (req, res) => {
   }
 };
 
+const insertNewProduct = async (req, res) => {
+  try {
+    const newProduct = await insertProduct(req.body);
+    res.status(201).json(newProduct);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
+  insertNewProduct,
 };

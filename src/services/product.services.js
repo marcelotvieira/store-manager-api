@@ -1,4 +1,4 @@
-const { getAll, findById } = require('../models/product.model');
+const { getAll, findById, insert } = require('../models/product.model');
 
 const getProducts = async () => {
   try {
@@ -18,4 +18,17 @@ const getById = async (id) => {
   }
 };
 
-module.exports = { getProducts, getById };
+const insertProduct = async (product) => {
+  try {
+    const data = await insert(product);
+    return data;
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = {
+  getProducts,
+  getById,
+  insertProduct,
+};

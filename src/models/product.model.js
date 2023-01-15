@@ -23,4 +23,21 @@ const findById = async (id) => {
   }
 };
 
-module.exports = { getAll, findById };
+const insert = async (product) => {
+  try {
+    const [newProduct] = await conn.execute(
+      'INSERT INTO StoreManager.products(name) VALUES (?)',
+        [product.name],
+    );
+    const response = {
+      id: newProduct.insertId,
+      ...product,
+    };
+    console.log(response);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { getAll, findById, insert };
