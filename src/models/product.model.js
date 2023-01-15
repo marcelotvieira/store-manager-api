@@ -33,7 +33,6 @@ const insert = async (product) => {
       id: newProduct.insertId,
       ...product,
     };
-    console.log(response);
     return response;
   } catch (err) {
     return err;

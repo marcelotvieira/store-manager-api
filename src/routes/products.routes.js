@@ -13,6 +13,6 @@ productRouter.get('/products', getAllProducts);
 productRouter.get('/products/:id', getProductById);
 
 productRouter.post('/products',
-valProductRequestData, insertNewProduct);
+  valProductRequestData, insertNewProduct);
 
 module.exports = productRouter;
