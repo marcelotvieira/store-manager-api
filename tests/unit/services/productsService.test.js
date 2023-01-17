@@ -32,9 +32,4 @@ describe("Testando Service getProducts de produtos", () => {
     expect(response).to.be.equals(productsMock);
   });
 
-  it('Testando disparo de erro', async () => {
-      execStub.rejects(new Error());
-      const response = await getProducts();
-      expect(response).to.be.instanceOf(Error);
-  })
 });

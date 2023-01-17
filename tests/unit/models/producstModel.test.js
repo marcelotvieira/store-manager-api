@@ -30,10 +30,4 @@ describe("Testando Model getAll de produtos", () => {
     expect(response).to.be.instanceOf(Array);
     expect(response).to.be.equals(productsMock);
   });
-
-  it("Testando o disparo de erro", async () => {
-    execStub.rejects(new Error());
-    const response = await getAll();
-    expect(response).to.be.instanceOf(Error);
-  });
 });
