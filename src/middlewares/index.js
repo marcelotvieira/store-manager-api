@@ -3,7 +3,7 @@ const ApiError = require('../error/ApiError');
 const validations = require('../validations/index');
 
 const { productValidateSchema, saleValidateSchema } = validations;
-const valProductRequestData = (req, res, next) => {
+const valProductRequestData = (req, _res, next) => {
   try {
     const { error } = productValidateSchema.validate(req.body);
     if (error) throw new Error(error);
@@ -16,7 +16,7 @@ const valProductRequestData = (req, res, next) => {
   }
 };
 
-const valSaleRequestData = (req, res, next) => {
+const valSaleRequestData = (req, _res, next) => {
   try {
     const { error } = saleValidateSchema.validate(...req.body);
     if (error) throw new Error(error);
@@ -29,7 +29,7 @@ const valSaleRequestData = (req, res, next) => {
   }
 };
 
-const checkProductId = async (req, res, next) => {
+const checkProductId = async (req, _res, next) => {
     const products = await getAll();
     const productIds = [];
     products.forEach((product) => {
