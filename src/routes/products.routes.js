@@ -6,6 +6,7 @@ const {
   getProductById,
   insertNewProduct,
   updateProductById,
+  deleteProductById,
 } = require('../controllers/product.controller');
 const { valProductRequestData } = require('../middlewares');
 
@@ -18,5 +19,7 @@ productRouter.get('/products/:id', rescue(getProductById));
 productRouter.post('/products', rescue(valProductRequestData), rescue(insertNewProduct));
 
 productRouter.put('/products/:id', rescue(valProductRequestData), rescue(updateProductById));
+
+productRouter.delete('/products/:id', rescue(deleteProductById));
 
 module.exports = productRouter;

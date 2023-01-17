@@ -37,4 +37,13 @@ const update = async (id, payload) => {
     return updatedProduct;
 };
 
-module.exports = { getAll, findById, insert, update };
+const destroy = async (id) => {
+  const [deletedProduct] = await conn.execute(
+    `DELETE FROM StoreManager.products
+    WHERE id = (?)`,
+    [Number(id)],
+  );
+  return deletedProduct;
+};
+
+module.exports = { getAll, findById, insert, update, destroy };

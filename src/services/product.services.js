@@ -3,6 +3,7 @@ const { getAll,
   findById,
   insert,
   update,
+  destroy,
 } = require('../models/product.model');
 
 const getProducts = async () => {
@@ -27,9 +28,15 @@ const updateProduct = async (id, payload) => {
   return { id, ...payload };
 };
 
+const deleteProduct = async (id) => {
+  const deletedProduct = await destroy(id);
+  if (deletedProduct.affectedRows < 1) ApiError.notFound('Product not found');
+};
+
 module.exports = {
   getProducts,
   getById,
   insertProduct,
+  deleteProduct,
   updateProduct,
 };

@@ -10,7 +10,8 @@ const insert = async (sales) => {
     sales.forEach(async (sale) => {
       await conn.execute(
         `INSERT INTO StoreManager.sales_products
-      (sale_id, product_id, quantity) VALUES (?, ?, ?)`,
+        (sale_id, product_id, quantity)
+        VALUES (?, ?, ?)`,
         [insertId, sale.productId, sale.quantity],
       );
     });
@@ -21,7 +22,7 @@ const getAll = async () => {
     const [sales] = await conn.execute(
       `SELECT sales_products.*, sales.date
         FROM sales_products
-        JOIN sales ON sales_products.sale_id = sales.id;`,
+        JOIN sales ON sales_products.sale_id = sales.id`,
     );
     return camelize(sales);
 };
@@ -31,7 +32,7 @@ const findById = async (id) => {
       `SELECT sales_products.product_id, sales_products.quantity, sales.date
         FROM sales_products
         JOIN sales ON sales_products.sale_id = sales.id
-        WHERE sales_products.sale_id = ${id};`,
+        WHERE sales_products.sale_id = ${id}`,
     );
     return camelize(sales);
 };
