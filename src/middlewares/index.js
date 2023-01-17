@@ -6,46 +6,40 @@ const { productValidateSchema, saleValidateSchema } = validations;
 const valProductRequestData = (req, res, next) => {
   try {
     const { error } = productValidateSchema.validate(req.body);
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(error);
     next();
   } catch (err) {
-    if (err.message.includes('required')) {
-      return res.status(400).json({ message: err.message });
-    }
-    res.status(422).json({ message: err.message });
+    const [type, message] = err.message.split(': ');
+    console.log(type);
+    if (err.message.includes('required')) ApiError.badRequest(message);
+    ApiError.unprocessable(message);
   }
 };
 
 const valSaleRequestData = (req, res, next) => {
   try {
     const { error } = saleValidateSchema.validate(...req.body);
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(error);
     next();
   } catch (err) {
-    if (err.message.includes('required')) {
-      return res.status(400).json({ message: err.message });
-    }
-    res.status(422).json({ message: err.message });
+    const [type, message] = err.message.split(': ');
+    console.log(type);
+    if (err.message.includes('required')) ApiError.badRequest(message);
+    ApiError.unprocessable(message);
   }
 };
 
 const checkProductId = async (req, res, next) => {
-  try {
     const products = await getAll();
-
     const productIds = [];
     products.forEach((product) => {
       productIds.push(product.id);
     });
-
     req.body.forEach((sale) => {
-      if (!productIds.includes(sale.productId)) throw new Error('Product not found');
+      if (!productIds.includes(sale.productId)) ApiError.notFound('Product not found');
     });
 
     next();
-  } catch (err) {
-        res.status(404).json({ message: err.message });
-  }
 };
 
 const errorHandler = async (error, _req, res, _next) => {

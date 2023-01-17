@@ -15,6 +15,10 @@ class ApiError {
     throw new ApiError(message, StatusCodes.UNAUTHORIZED);
   }
 
+  static unprocessable(message) {
+    throw new ApiError(message, StatusCodes.UNPROCESSABLE_ENTITY);
+  }
+
   static badRequest(message) {
     throw new ApiError(message, StatusCodes.BAD_REQUEST);
   }
