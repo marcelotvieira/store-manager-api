@@ -1,4 +1,4 @@
-const { getAll, findById, insert } = require('../models/product.model');
+const { getAll, findById, insert, update } = require('../models/product.model');
 
 const getProducts = async () => {
   try {
@@ -27,8 +27,19 @@ const insertProduct = async (product) => {
   }
 };
 
+const updateProduct = async (id, payload) => {
+  try {
+    const updatedProduct = await update(id, payload);
+    if (updatedProduct.affectedRows < 1) throw new Error('Product not found');
+    return { id, ...payload };
+  } catch (err) {
+    return { err: err.message };
+  }
+};
+
 module.exports = {
   getProducts,
   getById,
   insertProduct,
+  updateProduct,
 };

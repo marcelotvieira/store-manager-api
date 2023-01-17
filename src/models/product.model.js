@@ -39,4 +39,18 @@ const insert = async (product) => {
   }
 };
 
-module.exports = { getAll, findById, insert };
+const update = async (id, payload) => {
+  try {
+    const [updatedProduct] = await conn.execute(
+      `UPDATE StoreManager.products
+        SET name = (?)
+        WHERE id = (?);`,
+      [payload.name, id],
+    );
+    return updatedProduct;
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { getAll, findById, insert, update };
