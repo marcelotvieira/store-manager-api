@@ -1,4 +1,5 @@
 const { getAll } = require('../models/product.model');
+const ApiError = require('../error/ApiError');
 const validations = require('../validations/index');
 
 const { productValidateSchema, saleValidateSchema } = validations;
@@ -47,8 +48,16 @@ const checkProductId = async (req, res, next) => {
   }
 };
 
+const errorHandler = async (error, _req, res, _next) => {
+  if (error instanceof ApiError) {
+    return res.status(error.statusCode).json({ message: error.message });
+  }
+  res.status(500).json({ message: 'Alguma coisa deu errado' });
+};
+
 module.exports = {
   valProductRequestData,
   valSaleRequestData,
   checkProductId,
+  errorHandler,
 };

@@ -1,40 +1,30 @@
-const { getAll, findById, insert, update } = require('../models/product.model');
+const ApiError = require('../error/ApiError');
+const { getAll,
+  findById,
+  insert,
+  update,
+} = require('../models/product.model');
 
 const getProducts = async () => {
-  try {
-    const data = await getAll();
-    return data;
-  } catch (err) {
-    return err;
-  }
+  const data = await getAll();
+  return data;
 };
 
 const getById = async (id) => {
-  try {
-    const data = await findById(id);
-    return data;
-  } catch (err) {
-    return err;
-  }
+  const data = await findById(id);
+  if (data.length < 1) ApiError.notFound('Product not found');
+  return data;
 };
 
 const insertProduct = async (product) => {
-  try {
-    const data = await insert(product);
-    return data;
-  } catch (err) {
-    return err;
-  }
+  const data = await insert(product);
+  return data;
 };
 
 const updateProduct = async (id, payload) => {
-  try {
-    const updatedProduct = await update(id, payload);
-    if (updatedProduct.affectedRows < 1) throw new Error('Product not found');
-    return { id, ...payload };
-  } catch (err) {
-    return { err: err.message };
-  }
+  const updatedProduct = await update(id, payload);
+  if (updatedProduct.affectedRows < 1) ApiError.notFound('Product not found');
+  return { id, ...payload };
 };
 
 module.exports = {

@@ -1,31 +1,21 @@
+const ApiError = require('../error/ApiError');
 const { getAll, findById } = require('../models/sales.model');
 const { insert } = require('../models/sales.model');
 
 const insertSale = async (sale) => {
-  try {
-    const newRegister = await insert(sale);
-    return newRegister;
-  } catch (err) {
-    return err;
-  }
+  const newRegister = await insert(sale);
+  return newRegister;
 };
 
 const getSales = async () => {
-  try {
-    const sales = await getAll();
-    return sales;
-  } catch (err) {
-    return err;
-  }
+  const sales = await getAll();
+  return sales;
 };
 
 const getById = async (id) => {
-  try {
-    const sale = await findById(id);
-    return sale;
-  } catch (err) {
-    return err;
-  }
+  const sale = await findById(id);
+  if (sale.length < 1) ApiError.notFound('Sale not found');
+  return sale;
 };
 
 module.exports = { insertSale, getSales, getById };

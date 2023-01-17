@@ -1,14 +1,21 @@
 const { Router } = require('express');
+
+const rescue = require('express-rescue');
 const { insertNewSale } = require('../controllers/sales.controller');
 const { valSaleRequestData, checkProductId } = require('../middlewares');
 const { getAllSales, getSaleById } = require('../controllers/sales.controller');
 
 const salesRouter = Router();
 
-salesRouter.post('/sales', valSaleRequestData, checkProductId, insertNewSale);
+salesRouter.post(
+  '/sales',
+  rescue(valSaleRequestData),
+  rescue(checkProductId),
+  rescue(insertNewSale),
+);
 
-salesRouter.get('/sales', getAllSales);
+salesRouter.get('/sales', rescue(getAllSales));
 
-salesRouter.get('/sales/:id', getSaleById);
+salesRouter.get('/sales/:id', rescue(getSaleById));
 
 module.exports = salesRouter;
