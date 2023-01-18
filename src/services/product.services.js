@@ -39,6 +39,7 @@ const searchProduct = async ({ q }) => {
     const products = await getAll();
     return products;
   }
+  
   const product = await findByName(q);
   if (product.length < 1) ApiError.notFound('Product not found');
   return product;
