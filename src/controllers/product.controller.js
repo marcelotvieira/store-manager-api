@@ -4,6 +4,7 @@ const {
   insertProduct,
   updateProduct,
   deleteProduct,
+  searchProduct,
 } = require('../services/product.services');
 
 const getAllProducts = async (req, res) => {
@@ -34,10 +35,16 @@ const deleteProductById = async (req, res) => {
   res.status(204).json({ message: 'success' });
 };
 
+const getProductByName = async (req, res) => {
+  const product = await searchProduct(req.query);
+  res.status(200).json(product);
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   insertNewProduct,
   updateProductById,
   deleteProductById,
+  getProductByName,
 };

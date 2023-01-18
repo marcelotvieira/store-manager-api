@@ -1,6 +1,7 @@
 const ApiError = require('../error/ApiError');
 const { getAll,
   findById,
+  findByName,
   insert,
   update,
   destroy,
@@ -33,10 +34,21 @@ const deleteProduct = async (id) => {
   if (deletedProduct.affectedRows < 1) ApiError.notFound('Product not found');
 };
 
+const searchProduct = async ({ q }) => {
+  if (!q) {
+    const products = await getAll();
+    return products;
+  }
+  const product = await findByName(q);
+  if (product.length < 1) ApiError.notFound('Product not found');
+  return product;
+};
+
 module.exports = {
   getProducts,
   getById,
   insertProduct,
   deleteProduct,
   updateProduct,
+  searchProduct,
 };

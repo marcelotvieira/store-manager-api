@@ -7,12 +7,15 @@ const {
   insertNewProduct,
   updateProductById,
   deleteProductById,
+  getProductByName,
 } = require('../controllers/product.controller');
 const { valProductRequestData } = require('../middlewares');
 
 const productRouter = Router();
 
 productRouter.get('/products', rescue(getAllProducts));
+
+productRouter.get('/products/search', rescue(getProductByName));
 
 productRouter.get('/products/:id', rescue(getProductById));
 
