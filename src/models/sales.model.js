@@ -37,8 +37,21 @@ const findById = async (id) => {
     return camelize(sales);
 };
 
+const destroy = async (id) => {
+  const [destroyed] = await conn.execute(
+    `DELETE StoreManager.sales, StoreManager.sales_products
+      FROM StoreManager.sales_products
+      INNER JOIN StoreManager.sales ON StoreManager.sales_products.sale_id = StoreManager.sales.id
+      WHERE StoreManager.sales_products.sale_id = (?)`,
+    [Number(id)],
+  );
+  console.log(destroyed);
+  return destroyed;
+};
+
 module.exports = {
   findById,
   insert,
   getAll,
+  destroy,
 };
