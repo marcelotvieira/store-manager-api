@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const { getAll, findById, insert, destroy } = require('../models/sales.model');
+const { getAll, findById, insert, destroy, update } = require('../models/sales.model');
 
 const insertSale = async (sale) => {
   const newRegister = await insert(sale);
@@ -22,4 +22,14 @@ const deleteSale = async (id) => {
   if (deletedSale.affectedRows < 1) ApiError.notFound('Sale not found');
 };
 
-module.exports = { insertSale, getSales, getById, deleteSale };
+const updateSale = async (id, sale) => {
+  const updatedSale = await update(id, sale);
+  if (updatedSale.affectedRows < 1) ApiError.notFound('Sale not found');
+  const newSale = {
+    saleId: id,
+    itemsUpdated: sale,
+  };
+  return newSale;
+};
+
+module.exports = { insertSale, getSales, getById, deleteSale, updateSale };

@@ -45,8 +45,27 @@ const destroy = async (id) => {
       WHERE StoreManager.sales_products.sale_id = (?)`,
     [Number(id)],
   );
-  console.log(destroyed);
   return destroyed;
+};
+
+const update = async (id, sales) => {
+  const [target] = await conn.execute(
+    `DELETE FROM StoreManager.sales_products
+    WHERE sale_id = (?);`,
+    [Number(id)],
+  );
+  if (target.affectedRows > 0) {
+  sales.forEach(async (sale) => {
+      await conn.execute(
+        `INSERT INTO StoreManager.sales_products
+        (sale_id, product_id, quantity)
+        VALUES (?, ?, ?)`,
+        [Number(id), sale.productId, sale.quantity],
+      );
+  });
+  }
+  console.log(target);
+  return target;
 };
 
 module.exports = {
@@ -54,4 +73,5 @@ module.exports = {
   insert,
   getAll,
   destroy,
+  update,
 };
