@@ -4,7 +4,6 @@ const { productsMock } = require("../../mocks");
 const chaiHttp = require("chai-http");
 const chai = require("chai");
 const sinon = require("sinon");
-const { getAll } = require("../../../src/models/product.model");
 
 const { expect } = chai;
 
