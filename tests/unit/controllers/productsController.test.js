@@ -10,45 +10,73 @@ const { use } = require("chai");
 const app = require('../../../src/app');
 
 const { expect } = chai;
-const { getProducts } = productServices;
-const { getAllProducts } = productControllers;
+// const { getProducts } = productServices;
+const { getAllProducts, insertNewProduct, getProductById } = productControllers;
 const { getAll } = productModels;
 
 use(chaiHttp);
 
 
+describe("Testa controller getProductById de produtos", () => {
+  let stub;
+  let execStub;
+  let res;
+
+  beforeEach(() => {
+    stub = sinon.createSandbox();
+    execStub = stub.stub(conn, "execute").resolves([mock.productsMock]);
+    res = {
+      status: sinon.stub().returns({ json: sinon.spy() }),
+    };
+    req = {
+      params: {
+        id: '1'
+      }
+    }
+  });
+
+  afterEach(() => {
+    stub.restore();
+  });
+
+  it("Verifica se o retorno é o esperado", async () => {
+    await getProductById(req, res);
+    expect(res.status.calledWith(200)).to.be.true;
+    sinon.assert.calledOnce(execStub);
+  });
+});
+
+describe("Testa controller insertNewProduct de produtos", () => {
+  let stub;
+  let execStub;
+  let res;
+
+  beforeEach(() => {
+    stub = sinon.createSandbox();
+    execStub = stub.stub(conn, "execute").resolves([mock.productsMock]);
+    res = {
+      status: sinon.stub().returns({ json: sinon.spy() }),
+    };
+    req = {
+      body: {
+        name: 'Produto de teste'
+      }
+    }
+  });
+
+  afterEach(() => {
+    stub.restore();
+  });
+
+  it("Verifica se o retorno é o esperado", async () => {
+    await insertNewProduct(req, res)
+    expect(res.status.calledWith(201)).to.be.true;
+    sinon.assert.calledOnce(execStub);
+  });
+});
+
+
 describe("Testa controller getAllProducts de produtos", () => {
-  // let stub;
-  // let execStub;
-  // let res;
-
-  // beforeEach(() => {
-  //   stub = sinon.createSandbox();
-  //   execStub = stub.stub(conn, "execute").resolves([mock.productsMock]);
-  //   res = {
-  //     status: sinon.stub().returns({ json: sinon.spy() }),
-  //   };
-  // });
-
-  // afterEach(() => {
-  //   stub.restore();
-  // });
-
-  // it("Verifica se o retorno é o esperado", async () => {
-  //   await getAllProducts({}, res);
-  //   expect(res.status.calledWith(200)).to.be.true;
-  //   expect(res.status().json.calledWith(mock.productsMock)).to.be.true;
-  //   sinon.assert.calledOnce(execStub);
-  // });
-
-  // it("Verifica disparo de erro", async () => {
-  //   execStub.rejects(new Error('adasdsgesdfsdfsdgsdasdfsaedfwerf'));
-  //   try {
-  //     await getAllProducts({}, res);
-  //   } catch (err) {
-  //     expect(res.status.calledWith(200)).to.be.true;
-  //   }
-  // });
 
   let stub;
   let execStub;
@@ -77,7 +105,7 @@ describe("Testa controller getAllProducts de produtos", () => {
   })
 
   // it("Testando disparo de erro", async () => {
-      
+
   //   // execStub.rejects(new Error('deu erro'));
   //   execStub.rejects(new Error);
 
@@ -86,6 +114,6 @@ describe("Testa controller getAllProducts de produtos", () => {
   //   console.log(response.body)
 
   //   expect(response.status).to.be.equal(400);
-  //   });
-
+  // });
+  
 });

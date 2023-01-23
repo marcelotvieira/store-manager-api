@@ -46,7 +46,7 @@ const errorHandler = async (error, _req, res, _next) => {
   if (error instanceof ApiError) {
     return res.status(error.statusCode).json({ message: error.message });
   }
-  res.status(500).json({ message: 'Alguma coisa deu errado' });
+  res.status(500).json({ message: error.message });
 };
 
 module.exports = {

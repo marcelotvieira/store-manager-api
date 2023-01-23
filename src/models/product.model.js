@@ -9,7 +9,7 @@ const getAll = async () => {
 
 const findById = async (id) => {
     const [data] = await conn.execute(
-      'SELECT * FROM StoreManager.products WHERE id=?',
+      'SELECT * FROM StoreManager.products WHERE id=(?)',
       [id],
     );
     return data;
